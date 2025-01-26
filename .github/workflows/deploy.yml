@@ -1,0 +1,44 @@
+# .github/workflows/deploy.yml
+name: Deploy Infrastructure and Models
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Terraform Init
+      working-directory: ./infrastructure
+      run: terraform init
+
+    - name: Terraform Apply
+      working-directory: ./infrastructure
+      run: terraform apply -auto-approve
+
+    - name: Install Ansible
+      run: sudo apt-get update && sudo apt-get install -y ansible
+
+    - name: Run Ansible Playbook to Install Dependencies
+      run: ansible-playbook ansible/install_dependencies.yml
+
+    - name: Run Ansible Playbook to Deploy Models
+      run: ansible-playbook ansible/deploy_models.yml
+
+    - name: Deploy Kubernetes Resources
+      run: |
+        kubectl apply -f kubernetes/karpenter_provisioner.yaml
+        kubectl apply -f kubernetes/webui_deployment.yaml
+        kubectl apply -f kubernetes/prometheus.yaml
+        kubectl apply -f kubernetes/grafana.yaml
