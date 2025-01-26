@@ -1,0 +1,24 @@
+# .github/workflows/monitor.yml
+name: Monitor Infrastructure
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Prometheus and Grafana
+      run: |
+        kubectl apply -f kubernetes/prometheus.yaml
+        kubectl apply -f kubernetes/grafana.yaml
+
+    - name: Monitor GPU Usage
+      run: |
+        echo "Monitoring GPU usage..."
+        # Add your monitoring scripts or commands here
