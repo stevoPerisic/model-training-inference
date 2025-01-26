@@ -1,1 +1,7 @@
-# deploy_models.yml
+- name: Deploy Models
+  hosts: model_servers
+  tasks:
+    - name: Load pre-downloaded models
+      copy:
+        src: /local/path/to/models/
+        dest: /server/path/to/models/
