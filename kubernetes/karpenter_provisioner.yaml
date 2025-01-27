@@ -6,4 +6,4 @@ spec:
   requirements:
     - key: "node.kubernetes.io/instance-type"
       operator: In
-      values: ["p4d.24xlarge"]
+      values: ["t2.micro"]
