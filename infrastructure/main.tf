@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "gpu_instance" {
-  ami           = "0ac4dfaf1c5c0cce9"
+  ami           = "ami-0ac4dfaf1c5c0cce9"
   instance_type = "t2.micro"
   count         = 2
 
