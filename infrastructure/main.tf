@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 resource "aws_instance" "gpu_instance" {
-  ami           = "ami-0abcdef1234567890"
-  instance_type = "p4d.24xlarge"
+  ami           = "0ac4dfaf1c5c0cce9"
+  instance_type = "t2.micro"
   count         = 2
 
   tags = {
-    Name = "GPU-Instance"
+    Name = "FreeTier"
   }
 }
 
